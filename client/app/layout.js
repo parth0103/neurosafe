@@ -1,8 +1,8 @@
 import { Inter } from 'next/font/google';
-import './globals.css';
 import NavbarCommon from './components/global/NavbarCommon';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.min.css';
+import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <NavbarCommon />
-        {children}
+        <div className="bg-[#eaeaea]">{children}</div>
       </body>
     </html>
   );

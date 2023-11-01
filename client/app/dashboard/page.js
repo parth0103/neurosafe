@@ -1,73 +1,50 @@
-import React from 'react';
-import RecommendationCard from '../components/RecommendationCard';
-export default function page() {
-  const recentDoc = null;
+'use client';
+import Head from 'next/head';
+import { useState } from 'react';
+import { Button, Popover, Spinner } from 'react-bootstrap';
 
+import MoodGraph from '../components/Dashboard/MoodGraph';
+import Blogs from '../components/Dashboard/Blogs';
+import Events from '../components/Dashboard/Events';
+import Wrapper from '../components/global/Wrapper';
+import Container from '../components/global/Container';
+import Experts from '../components/Dashboard/Experts';
+import Communities from '../components/Dashboard/Communities';
+import NavbarCommon from '../components/global/NavbarCommon';
+export default function Dashboard({ user }) {
   return (
-    <main className="pt-16 bg-gradient-to-r from-gray-900 via-black to-gray-900 max-h-screen overflow-auto">
-      <div className="px-6 py-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="bg-gray-700 rounded-3xl p-8 mb-5">
-            <h1 className="animate-fade-down animate-duration-1000 animate-delay-100 text-xl text-gray-50 text-center font-bold mb-10">
-              {recentDoc?.data?.message}
-            </h1>
-
-            <hr className="my-10" />
-
-            <div className="grid grid-cols-1 text-gray-50 lg:grid-cols-2 gap-x-12">
-              <div>
-                <h2 className="text-2xl font-bold mb-4">Recommendations</h2>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="animate-fade-right animate-duration-1000 animate-delay-100 col-span-2">
-                    <RecommendationCard
-                      title={'Song Recommendation'}
-                      data={recentDoc?.data?.music}
-                    />
-                  </div>
-
-                  <div className="animate-fade-right animate-duration-1000 animate-delay-100 col-span-2">
-                    <RecommendationCard
-                      title={'Movie Recommendation'}
-                      data={recentDoc?.data?.movie}
-                    />
-                  </div>
-                  <div className="animate-fade-right animate-duration-1000 animate-delay-100  col-span-2">
-                    <div className="p-4 bg-indigo-100 rounded-xl text-gray-800">
-                      <div className="font-bold text-lg leading-none">
-                        Food Recommendations
-                      </div>
-                      <div className="mt-2 text-sm">
-                        {recentDoc?.data?.food
-                          ? recentDoc?.data?.food
-                          : 'You can eat anything'}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <h2 className="text-2xl font-bold mb-4">Your tasks today</h2>
-
-                <div className="space-y-4">
-                  {recentDoc?.data?.todo?.map((item, key) => {
-                    return (
-                      <div
-                        key={key}
-                        className="animate-fade-left animate-duration-1000 animate-delay-100 p-4 bg-indigo-100 border rounded-xl text-gray-800 space-y-2"
-                      >
-                        <p className="font-bold hover:text-yellow-800 hover:underline">
-                          {item}
-                        </p>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
+    <>
+      <Head>
+        <title>Fortitude Dashboard</title>
+      </Head>
+      <NavbarCommon current="dash" user={user} />
+      <Wrapper>
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 px-4 mb-4">
+          <Container
+            styles={'hidden sm:hidden md:block sm:col-span-1 md:col-span-1'}
+          >
+            <Communities />
+          </Container>
+          <div className="sm:col-span-2 md:col-span-2">
+            <Container styles={'h-100'}>
+              <Blogs />
+            </Container>
           </div>
+          <div className="row-span-1 h-100 sm:col-span-2 md:col-span-1">
+            <Container styles={'h-100'}>
+              <Events />
+            </Container>
+          </div>
+          <Container styles={'col-span-2'}>
+            <MoodGraph />
+          </Container>
+          <Container styles={'col-span-2'}>
+            <Experts />
+          </Container>
+          {/* <Container styles={"sm:col-span-2 lg:col-span-1"} /> */}
         </div>
-      </div>
-    </main>
+        <div className=""></div>
+      </Wrapper>
+    </>
   );
 }
