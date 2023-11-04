@@ -1,7 +1,9 @@
+'use client';
 import Wrapper from '../components/global/Wrapper';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Container from '../components/global/Container';
 import Image from 'next/image';
+import axios from 'axios';
 function ExpertCard() {
   return (
     <div className="flex flex-col p-3 gap-3 bg-white shadow-sm border-1 rounded-lg ">
@@ -28,6 +30,15 @@ function ExpertCard() {
 }
 
 export default function page() {
+  useEffect(() => {
+    axios
+      .post('http://localhost:5000/predict', {
+        input: 'nice day is not it',
+      })
+      .then((data) => console.log(data))
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <div>
       <Wrapper>

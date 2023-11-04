@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
+import React, { useState, useEffect } from 'react';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
 
 export default function EditModal({
   content,
@@ -11,8 +11,8 @@ export default function EditModal({
   handleSubmit,
 }) {
   const [show, setShow] = useState(false);
-  const [title, setTitle] = useState(content.title || "");
-  const [body, setBody] = useState(content.body || "");
+  const [title, setTitle] = useState(content.title || '');
+  const [body, setBody] = useState(content.body || '');
 
   const handleClose = () => {
     changeState(false);
@@ -20,8 +20,8 @@ export default function EditModal({
   };
 
   const handleChange = (e) => {
-    const type = e.target.getAttribute("data");
-    if (type == "title") {
+    const type = e.target.getAttribute('data');
+    if (type == 'title') {
       setTitle(e.target.value);
     } else {
       setBody(e.target.value);
@@ -48,7 +48,7 @@ export default function EditModal({
     <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{modalTitle ? modalTitle : "Edit Journal"}</Modal.Title>
+          <Modal.Title>{modalTitle ? modalTitle : 'Edit Journal'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -66,7 +66,7 @@ export default function EditModal({
               className="mb-3"
               controlId="exampleForm.ControlTextarea1"
             >
-              <Form.Label></Form.Label>
+              <Form.Label>Description</Form.Label>
               <Form.Control
                 as="textarea"
                 data="body"
@@ -78,10 +78,10 @@ export default function EditModal({
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="outline-danger" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={modalSubmit}>
+          <Button variant="outline-primary" onClick={modalSubmit}>
             Save Changes
           </Button>
         </Modal.Footer>
