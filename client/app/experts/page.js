@@ -32,12 +32,12 @@ export default function page() {
     <div>
       <Wrapper>
         <div className="m-2 p-2 ">
-          <h5 className="text-bold">Recommended for you</h5>
+          <div className="text-xl font-semibold">Recommended for you</div>
           <div className="grid grid-cols-5 p-2 gap-5">
             <ExpertCard />
             <ExpertCard />
           </div>
-          <h5 className="mt-4">High Rated</h5>
+          <div className="mt-4 text-xl font-semibold">High Rated</div>
           <div className="grid grid-cols-5 p-2 gap-5">
             <ExpertCard />
             <ExpertCard />
