@@ -1,4 +1,6 @@
 import express from 'express';
+import journalControllers from '../../controllers/journal/journalControllers';
 const router = express.Router();
+router.post('/add', journalControllers.post);
 
-router.get('/');
+export default journalRoutes = router;
