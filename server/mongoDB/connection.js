@@ -1,13 +1,13 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 const mongoDBConnect = () => {
   try {
-    mongoose.connect(process.env.URL, {
+    mongoose.connect(process.env.LOCAL_URL, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
     });
-    console.log("MongoDB - Connected");
+    console.log('MongoDB - Connected');
   } catch (error) {
-    console.log("Error - MongoDB Connection " + error);
+    console.log('Error - MongoDB Connection ' + error);
   }
 };
 export default mongoDBConnect;
