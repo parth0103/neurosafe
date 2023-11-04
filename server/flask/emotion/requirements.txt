@@ -1,0 +1,5 @@
+flask
+tensorflow
+gunicorn==19.7.1
+flask_cors
+pickle5
