@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 import './globals.css';
+import { Provider } from 'react-redux';
+import store from '@/store';
 const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout({ children }) {
@@ -19,7 +21,9 @@ export default function RootLayout({ children }) {
 				) : (
 					<NavbarCommon />
 				)}
-				<div className="bg-[#eaeaea]">{children}</div>
+				<div className="bg-[#eaeaea]">
+					<Provider store={store}>{children}</Provider>
+				</div>
 			</body>
 		</html>
   );
