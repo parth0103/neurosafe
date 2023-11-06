@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Provider, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Model from "../components/Model";
 import { BsEmojiSmile, BsFillEmojiSmileFill } from "react-icons/bs";
 import { fetchMessages, sendMessage } from "../apis/messages";
@@ -15,10 +15,6 @@ import Picker from "@emoji-mart/react";
 import { getChatName } from "../utils/logics";
 import Typing from "../components/ui/Typing";
 import { validUser } from "../apis/auth";
-import createStore from "./createReduxStore";
-
-const store = createStore();
-
 const ENDPOINT = process.env.REACT_APP_SERVER_URL;
 let socket, selectedChatCompare;
 
@@ -104,9 +100,9 @@ function Chat(props) {
 			</div>
 		);
 	}
-	console.log(activeChat);
+	console.log(activeUser);
 	return (
-		<Provider store={store}>
+		<div>
 			{activeChat ? (
 				<div className={`${props.className}`}>
 					<div className="flex justify-between items-center px-5 py-2 bg-[#ffff] w-[100%]">
@@ -248,7 +244,7 @@ function Chat(props) {
 					</div>
 				</div>
 			)}
-		</Provider>
+		</div>
 	);
 }
 
