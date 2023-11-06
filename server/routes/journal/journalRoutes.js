@@ -1,6 +1,7 @@
 import express from 'express';
-import journalControllers from '../../controllers/journal/journalControllers';
 const router = express.Router();
-router.post('/add', journalControllers.post);
+import journalControllers from '../../controllers/journal/journalControllers.js';
+router.post('/', journalControllers.postJournal);
+router.get('/', journalControllers.getJournal);
 
-export default journalRoutes = router;
+export default router;

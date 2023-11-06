@@ -68,8 +68,10 @@ export default function Feeling({ user, triggerCount }) {
       ...data,
       emotions: chosenEmotions,
     };
+    console.log(payload);
+    // console.log(axios);
     axios
-      .post('http:/localhost:5000/api/journal', payload)
+      .post('http://localhost:8000/api/journal', payload)
       .then((e) => {
         console.log(e);
         toast.success('Entry added successfully!');

@@ -15,7 +15,7 @@ export default function Journal({ user, trigger, triggerCount }) {
   // setBot(false);
   const getData = async (time = 'today') => {
     axios
-      .get(`/api/reflect/journal?uid=${user.uid}&time=${time}`)
+      .get('http://localhost:8000/api/journal')
       .then((e) => {
         console.log(e);
         setjournals(e.data);
@@ -72,7 +72,7 @@ export default function Journal({ user, trigger, triggerCount }) {
               </div>
             </div>
           </div>
-          <hr className="" />
+          <hr className="mb-4" />
           <div className={styles.innerjournal}>
             {!loading ? (
               journals.length ? (
