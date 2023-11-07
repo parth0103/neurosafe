@@ -1,18 +1,21 @@
-import React from "react";
-import JournalEntry from "./JournalEntry";
-import { ToastContainer, toast } from "react-toastify";
-import styles from "../../styles/Reflect.module.scss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState, useContext } from "react";
-import axios from "axios";
-import { Spinner } from "react-bootstrap";
+import React, { useContext } from 'react';
+import JournalEntry from './JournalEntry';
+import { ToastContainer, toast } from 'react-toastify';
+import styles from '../../styles/Reflect.module.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Spinner } from 'react-bootstrap';
+import { GlobalContext } from '@/app/GlobalWrapper';
 export default function Journal({ user, trigger, triggerCount }) {
   const [journals, setjournals] = useState([]);
   const [loading, setloading] = useState(true);
-  const getData = async (time = "today") => {
+  const { setBot } = useContext(GlobalContext);
+  // setBot(false);
+  const getData = async (time = 'today') => {
     axios
-      .get(`/api/reflect/journal?uid=${user.uid}&time=${time}`)
+      .get('http://localhost:8000/api/journal')
       .then((e) => {
         console.log(e);
         setjournals(e.data);
@@ -31,19 +34,19 @@ export default function Journal({ user, trigger, triggerCount }) {
     console.log(data);
     data = { uid: user.uid, ...data };
     axios
-      .put("/api/reflect/journal", data)
+      .put('/api/reflect/journal', data)
       .then((e) => {
         console.log(e);
-        toast.success("Updated Successfully");
+        toast.success('Updated Successfully');
         triggerCount();
       })
       .catch();
   };
   const handleDelete = (data) => {
     data = { uid: user.uid, ...data };
-    axios.delete("/api/reflect/journal", { data: data }).then((e) => {
+    axios.delete('/api/reflect/journal', { data: data }).then((e) => {
       console.log(e);
-      toast.success("Deleted Successfully");
+      toast.success('Deleted Successfully');
       triggerCount();
     });
   };
@@ -58,10 +61,10 @@ export default function Journal({ user, trigger, triggerCount }) {
                 Dropdown <FontAwesomeIcon icon={faChevronDown} />
               </button>
               <div className={styles.dropdownContent}>
-                <a href="#" onClick={() => getData("today")}>
+                <a href="#" onClick={() => getData('today')}>
                   Today
                 </a>
-                <a href="#" onClick={() => getData("yesterday")}>
+                <a href="#" onClick={() => getData('yesterday')}>
                   Yesterday
                 </a>
                 <a href="#">Last Week</a>
@@ -69,7 +72,7 @@ export default function Journal({ user, trigger, triggerCount }) {
               </div>
             </div>
           </div>
-          <hr className="" />
+          <hr className="mb-4" />
           <div className={styles.innerjournal}>
             {!loading ? (
               journals.length ? (

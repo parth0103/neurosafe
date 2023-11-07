@@ -3,6 +3,8 @@ import NavbarCommon from './components/global/NavbarCommon';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 import './globals.css';
+import { GlobalWrapper } from './GlobalWrapper';
+
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
@@ -14,8 +16,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <NavbarCommon />
-        <div className="bg-[#eaeaea]">{children}</div>
+        <GlobalWrapper>
+          <div className="bg-[#eaeaea]">{children}</div>
+        </GlobalWrapper>
       </body>
     </html>
   );
