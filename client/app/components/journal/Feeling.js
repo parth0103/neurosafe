@@ -64,12 +64,14 @@ export default function Feeling({ user, triggerCount }) {
   const handleSubmit = async (data) => {
     data = { ...data, emotions: chosenEmotions, uid: user.uid };
     const payload = {
-      uid: user.uid,
+      id: 1,
       ...data,
       emotions: chosenEmotions,
     };
+    console.log(payload);
+    // console.log(axios);
     axios
-      .post('/api/reflect/journal', payload)
+      .post('http://localhost:8000/api/journal', payload)
       .then((e) => {
         console.log(e);
         toast.success('Entry added successfully!');

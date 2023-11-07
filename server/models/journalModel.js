@@ -14,13 +14,20 @@ const journalSchema = mongoose.Schema(
     emotions: {
       type: Array,
     },
-    createdAt: {
-      type: Date,
+    // createdAt: {
+    //   type: Date,
+    // },
+    sentiment: {
+      type: String,
+      default: 'sad',
     },
-    type: 'journal_entry',
+    type: {
+      type: String,
+      default: 'journal_entry',
+    },
   },
   {
     timestamps: true,
   }
 );
-export default Journal = mongoose.model('Journal', journalSchema);
+export default mongoose.model('Journal', journalSchema);
