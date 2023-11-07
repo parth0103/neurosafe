@@ -16,7 +16,8 @@ export default function RootLayout({ children }) {
 			<body className={inter.className}>
 				{pathname === "/login" ||
 				pathname === "/register" ||
-				pathname === "/chat" ? (
+				pathname === "/chat" ||
+				pathname === "/therapist"? (
 					<></>
 				) : (
 					<NavbarCommon />
