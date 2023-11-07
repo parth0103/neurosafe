@@ -69,15 +69,23 @@ export default function Feeling({ user, triggerCount }) {
       emotions: chosenEmotions,
     };
     console.log(payload);
-    // console.log(axios);
     axios
-      .post('http://localhost:8000/api/journal', payload)
+      .post('http://localhost:5000/predict', { input: payload.body })
       .then((e) => {
-        console.log(e);
-        toast.success('Entry added successfully!');
-        triggerCount();
+        console.log(e?.data?.sentiment);
+        payload.sentiment = e.data?.sentiment;
+        // toast.success('Entry added successfully!');
+        axios
+          .post('http://localhost:8000/api/journal', payload)
+          .then((e) => {
+            console.log(e);
+            toast.success('Entry added successfully!');
+            triggerCount();
+          })
+          .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
+    // console.log(axios);
   };
   const journalinp = useRef('');
   const changeModalState = (e) => {
