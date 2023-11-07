@@ -1,251 +1,236 @@
-"use client";
+"use client"
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Model from "../components/Model";
-import { BsEmojiSmile, BsFillEmojiSmileFill } from "react-icons/bs";
-import { fetchMessages, sendMessage } from "../apis/messages";
 import { useEffect } from "react";
-import MessageHistory from "../components/MessageHistory";
-import io from "socket.io-client";
+import { useDispatch, useSelector } from "react-redux";
+import { searchUsers, validUser } from "../apis/auth";
+import { setActiveUser } from "../../redux/activeUserSlice";
+import { RiNotificationBadgeFill } from "react-icons/ri";
+import { BsSearch } from "react-icons/bs";
+import { BiNotification } from "react-icons/bi";
+import { IoIosArrowDown } from "react-icons/io";
+import { setShowNotifications, setShowProfile } from "../../redux/profileSlice";
+import Chat from "../components/chat";
+import Profile from "../components/Profile";
+import { acessCreate } from "../apis/chat.js";
 import "../styles/home.css";
 import { fetchChats, setNotifications } from "../../redux/chatsSlice";
-import Loading from "../components/ui/Loading";
-import data from "@emoji-mart/data";
-import Picker from "@emoji-mart/react";
-import { getChatName } from "../utils/logics";
-import Typing from "../components/ui/Typing";
-import { validUser } from "../apis/auth";
-const ENDPOINT = process.env.REACT_APP_SERVER_URL;
-let socket, selectedChatCompare;
-
-function Chat(props) {
-	const { activeChat, notifications } = useSelector((state) => state.chats);
+import { getSender } from "../utils/logics";
+import { setActiveChat } from "../../redux/chatsSlice";
+import Group from "../components/Group";
+import Contacts from "../components/Contacts";
+import { Effect } from "react-notification-badge";
+// import NotificationBadge from 'react-notification-badge/lib/components/NotificationBadge';
+import NotificationBadge from "react-notification-badge";
+import Search from "../components/group/Search";
+function Home() {
 	const dispatch = useDispatch();
-	const [message, setMessage] = useState("");
-	const [messages, setMessages] = useState([]);
-	const [socketConnected, setSocketConnected] = useState(false);
-	const [typing, setTyping] = useState(false);
-	const [isTyping, setIsTyping] = useState(false);
-	const [loading, setLoading] = useState(false);
-	const [showPicker, setShowPicker] = useState(false);
-	const activeUser = useSelector((state) => state.activeUser);
+	const { showProfile, showNotifications } = useSelector(
+		(state) => state.profile
+	);
+	const { notifications } = useSelector((state) => state.chats);
+	const { activeUser } = useSelector((state) => state);
+	const [searchResults, setSearchResults] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
+	const [search, setSearch] = useState("");
 
-	const keyDownFunction = async (e) => {
-		if ((e.key === "Enter" || e.type === "click") && message) {
-			setMessage("");
-			socket.emit("stop typing", activeChat._id);
-			const data = await sendMessage({ chatId: activeChat._id, message });
-			socket.emit("new message", data);
-			setMessages([...messages, data]);
-			dispatch(fetchChats());
-		}
+	const handleSearch = async (e) => {
+		setSearch(e.target.value);
 	};
-
+	const handleClick = async (e) => {
+		await acessCreate({ userId: e._id });
+		dispatch(fetchChats());
+		setSearch("");
+	};
 	useEffect(() => {
-		socket = io(ENDPOINT);
-		socket.on("typing", () => setIsTyping(true));
-		socket.on("stop typing", () => setIsTyping(false));
-	}, []);
-
-	useEffect(() => {
-		socket.emit("setup", activeUser);
-		socket.on("connected", () => {
-			setSocketConnected(true);
-		});
-	}, [messages, activeUser]);
-	useEffect(() => {
-		const fetchMessagesFunc = async () => {
-			if (activeChat) {
-				setLoading(true);
-				const data = await fetchMessages(activeChat._id);
-				setMessages(data);
-				socket.emit("join room", activeChat._id);
-				setLoading(false);
-			}
-			return;
+		const searchChange = async () => {
+			setIsLoading(true);
+			const { data } = await searchUsers(search);
+			setSearchResults(data);
+			setIsLoading(false);
 		};
-		fetchMessagesFunc();
-		selectedChatCompare = activeChat;
-	}, [activeChat]);
-	useEffect(() => {
-		socket.on("message recieved", (newMessageRecieved) => {
-			if (
-				(!selectedChatCompare || selectedChatCompare._id) !==
-				newMessageRecieved.chatId._id
-			) {
-				if (!notifications.includes(newMessageRecieved)) {
-					dispatch(
-						setNotifications([newMessageRecieved, ...notifications])
-					);
-				}
-			} else {
-				setMessages([...messages, newMessageRecieved]);
-			}
-			dispatch(fetchChats());
-		});
-	});
+		searchChange();
+	}, [search]);
 	useEffect(() => {
 		const isValid = async () => {
 			const data = await validUser();
-			if (!data?.user) {
-				window.location.href = "/login";
-			}
+
+			const user = {
+				id: data?.user?._id,
+				email: data?.user?.email,
+				profilePic: data?.user?.profilePic,
+				bio: data?.user?.bio,
+				name: data?.user?.name,
+			};
+			dispatch(setActiveUser(user));
 		};
 		isValid();
-	}, []);
-	if (loading) {
-		return (
-			<div className={props.className}>
-				<Loading />
-			</div>
-		);
-	}
-	console.log(activeUser);
-	return (
-		<div>
-			{activeChat ? (
-				<div className={`${props.className}`}>
-					<div className="flex justify-between items-center px-5 py-2 bg-[#ffff] w-[100%]">
-						<div className="flex items-center gap-x-[10px]">
-							<div className="flex flex-col items-start justify-center">
-								<h5 className="text-[17px] text-[#2b2e33] font-bold tracking-wide">
-									{getChatName(activeChat, activeUser)}
-								</h5>
-								{/* <p className='text-[11px] text-[#aabac8]'>Last seen 5 min ago</p> */}
-							</div>
-						</div>
-						<div>
-							<Model />
-						</div>
-					</div>
-					<div className="h-full py-5 flex flex-col space-y-3">
-						<div className="scrollbar-hide w-[100%] flex flex-col overflow-y-scroll px-5 h-[70vh]">
-							{messages.length > 0 ? (
-								<div>
-									<MessageHistory
-										typing={isTyping}
-										messages={messages}
-									/>
-									<div className="ml-7 -mb-10">
-										{isTyping ? (
-											<Typing width="100" height="100" />
-										) : (
-											""
-										)}
-									</div>
-								</div>
-							) : (
-								<div className="h-full flex w-full">
-									<div className="flex items-center justify-center text-slate-300 w-full">
-										Start your conversation in{" "}
-										{getChatName(activeChat, activeUser)}
-									</div>
-								</div>
-							)}
-						</div>
-						<div className="px-5">
-							{showPicker && (
-								<Picker
-									data={data}
-									onEmojiSelect={(e) =>
-										setMessage(message + e.native)
-									}
-								/>
-							)}
-							<div className="w-full border-[1px] border-[#aabac8] px-6 py-3 rounded-t-[10px]">
-								<form
-									onKeyDown={(e) => keyDownFunction(e)}
-									onSubmit={(e) => e.preventDefault()}
-								>
-									<input
-										onChange={(e) => {
-											setMessage(e.target.value);
-											if (!socketConnected) return;
-											if (!typing) {
-												setTyping(true);
-												socket.emit(
-													"typing",
-													activeChat._id
-												);
-											}
-											let lastTime = new Date().getTime();
-											var time = 3000;
-											setTimeout(() => {
-												var timeNow =
-													new Date().getTime();
-												var timeDiff =
-													timeNow - lastTime;
-												if (
-													timeDiff >= time &&
-													typing
-												) {
-													socket.emit(
-														"stop typing",
-														activeChat._id
-													);
-													setTyping(false);
-												}
-											}, time);
-										}}
-										className="focus:outline-0 w-full bg-[#f8f9fa]"
-										type="text"
-										name="message"
-										placeholder="Enter message"
-										value={message}
-									/>
-								</form>
-							</div>
+	}, [dispatch, activeUser]);
 
-							<div className="w-full border-x-[1px] border-b-[1px] bg-[#f8f9fa] border-[#aabac8] px-6 py-3 rounded-b-[10px] h-[50px]">
-								{/* {
-                  isTyping ? <div>Loading</div> : ""
-                } */}
-								<div className="flex justify-between items-start">
-									<div
-										className="cursor-pointer"
+	return (
+		<>
+			<div className="bg-[#282C35!] scrollbar-hide z-10 h-[100vh]  w-[90%] lg:mx-auto overflow-y-hidden shadow-2xl">
+				<div className="flex w-full">
+					{!showProfile ? (
+						<div className="md:flex md:flex-col min-w-[360px] h-[100vh] md:h-[98.6vh] bg-[#ffff] relative">
+							<div className="h-[61px] px-4">
+								<div className="flex">
+									<a
+										className="flex items-center relative  -top-4  h-[90px]"
+										href="/"
+									>
+										<h3 className="text-[20px] text-[#1f2228] font-body font-extrabold tracking-wider">
+											Messages
+										</h3>
+									</a>
+								</div>
+								<div className="absolute top-4 right-5 flex items-center gap-x-3">
+									<button
 										onClick={() =>
-											setShowPicker(!showPicker)
+											dispatch(
+												setShowNotifications(
+													!showNotifications
+												)
+											)
 										}
 									>
-										{showPicker ? (
-											<BsFillEmojiSmileFill className="w-[20px] h-[20px] text-[#ffb02e] border-[black]" />
+										<NotificationBadge
+											count={notifications.length}
+											effect={Effect.SCALE}
+											style={{
+												width: "15px",
+												height: "15px",
+												fontSize: "9px",
+												padding: "4px 2px 2px 2px",
+											}}
+										/>
+										{showNotifications ? (
+											<RiNotificationBadgeFill
+												style={{
+													width: "25px",
+													height: "25px",
+													color: "#319268",
+												}}
+											/>
 										) : (
-											<BsEmojiSmile className="w-[20px] h-[20px]" />
+											<BiNotification
+												style={{
+													color: "#319268",
+													width: "25px",
+													height: "25px",
+												}}
+											/>
 										)}
+									</button>
+									<div
+										className={`${
+											showNotifications
+												? "overflow-y-scroll scrollbar-hide tracking-wide absolute top-10 -left-32 z-10 w-[240px] bg-[#fafafa] px-4 py-2 shadow-2xl"
+												: "hidden"
+										}`}
+									>
+										<div className="text-[13px]">
+											{!notifications.length &&
+												"No new messages"}
+										</div>
+										{notifications.map((e, index) => {
+											return (
+												<div
+													onClick={() => {
+														dispatch(
+															setActiveChat(
+																e.chatId
+															)
+														);
+														dispatch(
+															setNotifications(
+																notifications.filter(
+																	(data) =>
+																		data !==
+																		e
+																)
+															)
+														);
+													}}
+													key={index}
+													className="text-[12.5px] text-black px-2 cursor-pointer"
+												>
+													{e.chatId.isGroup
+														? `New Message in ${e.chatId.chatName}`
+														: `New Message from ${getSender(
+																activeUser,
+																e.chatId.users
+														  )}`}
+												</div>
+											);
+										})}
 									</div>
 									<button
-										onClick={(e) => keyDownFunction(e)}
-										className="bg-[#f8f9fa] border-[2px] border-[#d4d4d4] text-[14px] px-2 py-[3px] text-[#9e9e9e] font-medium rounded-[7px] -mt-1"
+										onClick={() =>
+											dispatch(setShowProfile(true))
+										}
+										className="flex items-center gap-x-1 relative"
 									>
-										Send
+										<img
+											className="w-[28px] h-[28px] rounded-[25px]"
+											src={activeUser?.profilePic}
+											alt=""
+										/>
+										<IoIosArrowDown
+											style={{
+												color: "#616c76",
+												height: "14px",
+												width: "14px",
+											}}
+										/>
 									</button>
 								</div>
 							</div>
+
+							<div>
+								<div className="-mt-6 relative pt-6 px-4">
+									<form onSubmit={(e) => e.preventDefault()}>
+										<input
+											onChange={handleSearch}
+											className="w-[99.5%] bg-[#f6f6f6] text-[#111b21] tracking-wider pl-9 py-[8px] rounded-[9px] outline-0"
+											type="text"
+											name="search"
+											placeholder="Search"
+										/>
+									</form>
+
+									<div className="absolute top-[36px] left-[27px]">
+										<BsSearch
+											style={{ color: "#c4c4c5" }}
+										/>
+									</div>
+									<Group />
+
+									<div
+										style={{
+											display: search ? "" : "none",
+										}}
+										className="h-[100vh] absolute z-10 w-[100%] left-[0px] top-[70px] bg-[#fff] flex flex-col gap-y-3 pt-3 px-4"
+									>
+										<Search
+											searchResults={searchResults}
+											isLoading={isLoading}
+											handleClick={handleClick}
+											search={search}
+										/>
+									</div>
+								</div>
+
+								<Contacts />
+							</div>
 						</div>
-					</div>
+					) : (
+						<Profile className="min-w-[100%] sm:min-w-[360px] h-[100vh] bg-[#fafafa] shodow-xl relative" />
+					)}
+					<Chat className="chat-page relative w-full h-full bg-[#fafafa]" />
 				</div>
-			) : (
-				<div className={props.className}>
-					<div className="relative">
-						<div className="absolute top-[40vh] left-[44%] flex flex-col items-center justify-center gap-y-3">
-							<img
-								className="w-[50px] h-[50px] rounded-[25px]"
-								alt="User profile"
-								src={activeUser.profilePic}
-							/>
-							<h3 className="text-[#111b21] text-[20px] font-medium tracking-wider">
-								Welcome{" "}
-								<span className="text-[#166e48] text-[19px] font-bold">
-									{" "}
-									{activeUser.name}
-								</span>
-							</h3>
-						</div>
-					</div>
-				</div>
-			)}
-		</div>
+			</div>
+		</>
 	);
 }
 
-export default Chat;
+export default Home;

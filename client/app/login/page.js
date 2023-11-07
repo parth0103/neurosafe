@@ -19,6 +19,7 @@ function Login() {
 	const [formData, setFormData] = useState(defaultData);
 	const [isLoading, setIsLoading] = useState(false);
 	const [showPass, setShowPass] = useState(false);
+	const [userType, setUserType] = useState('User')
 	const pageRoute = useRouter();
 	const googleSuccess = async (res) => {
 		if (res?.profileObj) {
@@ -82,30 +83,45 @@ function Login() {
 	return (
 		<>
 			<div className="bg-[#121418] w-[100vw] h-[100vh] flex justify-center items-center">
-				<div className="w-[90%] sm:w-[400px] pl-0 ml-0 h-[400px] sm:pl-0 sm:ml-9 mt-20 relative">
+				<div className="w-[90%] sm:w-[400px] pl-0 ml-0 h-[400px] sm:pl-0 sm:ml-9 mt-20 flex flex-col items-center justify-center space-y-3">
 					{/* <img className='w-[100px] absolute -top-16 left-28' src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/78c4af118001599.608076cf95739.jpg" alt="" /> */}
-					<div className="absolute -top-5 left-0">
-						<h3 className=" text-[25px] font-bold tracking-wider text-[#fff]">
-							Login
-						</h3>
-						<p className="text-[#fff] text-[12px] tracking-wider font-medium">
-							No Account ?{" "}
-							<Link
-								className="text-[rgba(0,195,154,1)] underline"
-								href="/register"
-							>
-								Sign up
-							</Link>
-						</p>
+					<div className="text-white text-3xl font-semibold">
+						Login
+					</div>
+					<div className="flex flex-row justify-center items-center  w-80 text-lg">
+						<div
+							className={`w-40 text-center px-2 py-2 border-b-2  border-r-2 border-neurosafe-primary ${
+								userType == "User"
+									? "bg-neurosafe-primary text-black"
+									: "text-white"
+							} hover:bg-neurosafe-primary hover:text-black transition-all cursor-pointer`}
+							onClick={() => {
+								setUserType("User");
+							}}
+						>
+							User
+						</div>
+						<div
+							className={`w-40 text-center px-2 py-2 border-b-2  border-neurosafe-primary ${
+								userType == "Therapist"
+									? "bg-neurosafe-primary text-black"
+									: "text-white"
+							} hover:bg-neurosafe-primary hover:text-black transition-all cursor-pointer`}
+							onClick={() => {
+								setUserType("Therapist");
+							}}
+						>
+							Therapist
+						</div>
 					</div>
 					{/* <h2 className='text-2xl text-[#fff] font-bold tracking-wide my-6 text-center'>Login to your Account</h2> */}
 					<form
-						className="flex flex-col gap-y-3 mt-[12%]"
+						className="flex flex-col gap-y-3 w-full items-center justify-center"
 						onSubmit={formSubmit}
 					>
-						<div>
+						<div className="w-80 flex items-center justify-center">
 							<input
-								className="w-[100%] sm:w-[80%] bg-[#222222] h-[50px] pl-3 text-[#ffff]"
+								className="w-full bg-[#222222] h-12 pl-3 text-[#ffff]"
 								onChange={handleOnChange}
 								name="email"
 								type="text"
@@ -114,9 +130,9 @@ function Login() {
 								required
 							/>
 						</div>
-						<div className="relative">
+						<div className="w-full flex items-center justify-center ">
 							<input
-								className="w-[100%] sm:w-[80%] bg-[#222222] h-[50px] pl-3 text-[#ffff]"
+								className="w-72 bg-[#222222] h-12 pl-3 text-[#ffff]"
 								onChange={handleOnChange}
 								type={showPass ? "text" : "password"}
 								name="password"
@@ -125,29 +141,30 @@ function Login() {
 								required
 							/>
 							{!showPass ? (
-								<button type="button">
+								<button
+									type="button"
+									className="bg-[#222222] h-12"
+								>
 									<BsEmojiLaughing
 										onClick={() => setShowPass(!showPass)}
-										className="text-[#fff] absolute top-3 right-5 sm:right-24 w-[30px] h-[25px]"
+										className="text-[#fff] h-[25px] w-8"
 									/>
 								</button>
 							) : (
-								<button type="button">
-									{" "}
+								<button
+									type="button"
+									className="bg-[#222222] h-12"
+								>
 									<BsEmojiExpressionless
 										onClick={() => setShowPass(!showPass)}
-										className="text-[#fff] absolute top-3 right-5 sm:right-24 w-[30px] h-[25px]"
+										className="text-[#fff] h-[25px] w-8"
 									/>
 								</button>
 							)}
 						</div>
 
 						<button
-							style={{
-								background:
-									"linear-gradient(90deg, rgba(0,195,154,1) 0%, rgba(224,205,115,1) 100%)",
-							}}
-							className="w-[100%]  sm:w-[80%] h-[50px] font-bold text-[#121418] tracking-wide text-[17px] relative"
+							className=" bg-neurosafe-primary  w-80 h-[50px] font-bold text-[#121418] tracking-wide text-[17px] border-2 border-neurosafe-primary hover:text-neurosafe-primary hover:bg-[#121418] transition-all duration-200 relative"
 							type="submit"
 						>
 							<div
@@ -173,7 +190,6 @@ function Login() {
 							</p>
 						</button>
 						{/* <div className='border-t-[1px] w-[100%] sm:w-[80%] my-3' ></div> */}
-						<p className="text-[#fff] text-center sm:-ml-20">/</p>
 						<GoogleLogin
 							clientId={process.env.REACT_APP_CLIENT_ID}
 							render={(renderProps) => (
@@ -186,7 +202,7 @@ function Login() {
 									onClick={renderProps.onClick}
 									disabled={renderProps.disabled}
 									aria-label="Continue with google"
-									className="focus:ring-2 focus:ring-offset-1  py-3.5 px-4 border rounded-lg  flex items-center w-[100%]  sm:w-[80%]"
+									className="focus:ring-2 focus:ring-offset-1  py-3.5 px-4 border rounded-lg  flex items-center w-80 justify-center"
 									disableElevation={true}
 									disablefocusRipple={true}
 								>

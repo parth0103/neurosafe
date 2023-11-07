@@ -1,5 +1,5 @@
 import React from 'react'
-import nocontacts from "../../assets/no-contacts.jpg"
+import nocontacts from "../../../assets/no-contacts.jpg"
 function NoContacts() {
   return (
     <div className='flex flex-col items-center justify-center my-auto'>
