@@ -23,6 +23,7 @@
     "@reduxjs/toolkit": "^1.9.7",
     "axios": "^1.6.0",
     "bootstrap": "^5.3.2",
+    "chart.js": "^4.4.0",
     "chartjs": "^0.3.24",
     "dotenv": "^16.3.1",
     "emoji-mart": "^5.5.2",
