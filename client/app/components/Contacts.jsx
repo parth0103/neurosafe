@@ -13,11 +13,13 @@ function Contacts() {
 	useEffect(() => {
 		dispatch(fetchChats());
 	}, [dispatch]);
+	console.log(chats)
 	return (
 		<>
-			<div className="flex flex-col overflow-y-scroll scrollbar-hide h-[87vh] py-3 px-3 ">
+			<div className="relative z-1 flex flex-col overflow-y-scroll scrollbar-hide h-[87vh] py-3 px-3 ">
 				{chats?.length > 0 ? (
 					chats?.map((e) => {
+						console.log(e)
 						return (
 							<div
 								onClick={() => {
