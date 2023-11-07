@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../../styles/Dashboard.module.scss';
 import { Bar } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 import { CategoryScale } from 'chart.js';
 import Chart from 'chart.js/auto';
 import axios from 'axios';
 Chart.register(CategoryScale);
+const em_map = {
+  1: 'sadness',
+  5: 'joy',
+  6: 'love',
+  3: 'anger',
+  2: 'fear',
+  4: 'surprise',
+};
 const emotions = [
   {
     icon: '🥳',
@@ -44,7 +53,7 @@ const MoodGraph = () => {
   const [time, settime] = useState('1 week');
   const [mood, setmood] = useState({ x: [], y: [] });
   useEffect(() => {
-    axios.get('/api/dashboard/mood').then((e) => setmood(e.data));
+    axios.get('http://localhost:8000/api/emotion').then((e) => setmood(e.data));
   }, []);
   return (
     <>
@@ -70,13 +79,13 @@ const MoodGraph = () => {
               <div>{e.icon}</div>
             ))}
           </div>
-          <Bar
+          <Line
             datasetIdKey="id"
             height={'250px'}
             options={{
               maintainAspectRatio: false,
               responsive: true,
-              backgroundColor: '#6BCB77',
+              backgroundColor: '#fff',
               barThickness: 20,
               borderRadius: 0,
               layout: {
@@ -87,12 +96,20 @@ const MoodGraph = () => {
                 },
               },
               plugins: {
+                tooltip: {
+                  callbacks: {
+                    label: (context) => em_map[context.parsed.y],
+                  },
+                },
                 legend: {
                   display: false,
                 },
               },
               scales: {
-                yAxis: {
+                y: {
+                  grid: {
+                    display: false,
+                  },
                   ticks: {
                     display: false,
                     beginAtZero: true,
@@ -106,10 +123,9 @@ const MoodGraph = () => {
                     borderColor: '#fff',
                   },
                 },
-                xAxis: {
+                x: {
                   grid: {
                     display: false,
-                    borderColor: 'rgba(0, 0, 0, 0)',
                   },
                 },
               },
@@ -118,9 +134,11 @@ const MoodGraph = () => {
               labels: mood.x,
               datasets: [
                 {
+                  borderColor: '#ff7a00',
                   id: 1,
-                  label: '',
+                  label: mood.y.map((el) => em_map[el]),
                   data: mood.y,
+                  tension: 0.4,
                 },
               ],
             }}

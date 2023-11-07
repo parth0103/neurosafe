@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import userRoutes from './routes/user.js';
+import emotionRoutes from './routes/emotionRoutes.js';
 import chatRoutes from './routes/chat.js';
 import messageRoutes from './routes/message.js';
 import journalRoutes from './routes/journal/journalRoutes.js';
@@ -23,6 +24,7 @@ app.use('/', userRoutes);
 app.use('/api/journal', journalRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/message', messageRoutes);
+app.use('/api/emotion', emotionRoutes);
 mongoose.set('strictQuery', false);
 mongoDBConnect();
 const server = app.listen(process.env.PORT, () => {
