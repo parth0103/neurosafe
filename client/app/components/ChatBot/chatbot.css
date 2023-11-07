@@ -2,9 +2,17 @@
     background-color: white;
     border-radius: 5px;
     width: 350px!important;
-    /* border: 1px solid black; */
+    /* height: 600px!important; */
+    border: 0.5px solid grey;
 }
 
+.react-chatbot-kit-chat-message-container {
+    /* background-color: #eaeaea; */
+}
+.react-chatbot-kit-chat-header {
+    background-color: #ff7a00!important;
+    color: white!important;
+}
 .react-chatbot-kit-chat-bot-message{
     margin-left:0!important;
 }

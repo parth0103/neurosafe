@@ -70,7 +70,7 @@ export default function Dashboard({ user }) {
         <FontAwesomeIcon icon={faRobot} size={"2x"} styles={"m-0"} />
       </Container>
       {showChatbot && (
-        <div className="fixed bottom-[200px] right-[10px] h-96 w-96 rounded-lg m-0 p-0">
+        <div className="fixed bottom-[225px] right-[10px] h-96 w-96 rounded-lg m-0 p-0">
           <Chatbot
             config={config}
             actionProvider={ActionProvider}
