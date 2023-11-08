@@ -17,6 +17,7 @@ export const sendMessage = async (req, res) => {
         model: 'User',
       },
     });
+    console.log(msg);
     await Chat.findByIdAndUpdate(chatId, {
       latestMessage: msg,
     });
