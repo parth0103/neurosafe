@@ -20,7 +20,7 @@ export default function Appointments(){
 		},
 	];
     return (
-		<div className="bg-[#f3f3f3] rounded-md px-5 py-5">
+		<div className="bg-[#f7f7f7] rounded-md px-5 py-5">
 			<div id="header" className="text-xl">
 				Upcoming Appointments
 			</div>
