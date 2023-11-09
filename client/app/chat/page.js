@@ -65,10 +65,10 @@ function Home() {
 		};
 		isValid();
 	}, [dispatch, activeUser]);
-
+	console.log(searchResults)
 	return (
 		<>
-			<div className="bg-[#282C35!] scrollbar-hide z-10 h-[100vh]  w-[90%] lg:mx-auto overflow-y-hidden shadow-2xl">
+			<div className="bg-[#282C35!] scrollbar-hide h-[100vh]  w-[90%] lg:mx-auto overflow-y-hidden shadow-2xl">
 				<div className="flex w-full">
 					{!showProfile ? (
 						<div className="md:flex md:flex-col min-w-[360px] h-[100vh] md:h-[98.6vh] bg-[#ffff] relative">
@@ -186,7 +186,7 @@ function Home() {
 								</div>
 							</div>
 
-							<div>
+							
 								<div className="-mt-6 relative pt-6 px-4">
 									<form onSubmit={(e) => e.preventDefault()}>
 										<input
@@ -209,7 +209,7 @@ function Home() {
 										style={{
 											display: search ? "" : "none",
 										}}
-										className="h-[100vh] absolute z-10 w-[100%] left-[0px] top-[70px] bg-[#fff] flex flex-col gap-y-3 pt-3 px-4"
+										className={`h-[100vh] ${search.length>0?"z-10":"z-0"} absolute  w-[100%] left-[0px] top-[70px] bg-[#fff] flex flex-col gap-y-3 pt-3 px-4`}
 									>
 										<Search
 											searchResults={searchResults}
@@ -222,7 +222,7 @@ function Home() {
 
 								<Contacts />
 							</div>
-						</div>
+						
 					) : (
 						<Profile className="min-w-[100%] sm:min-w-[360px] h-[100vh] bg-[#fafafa] shodow-xl relative" />
 					)}
