@@ -16,19 +16,19 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        {pathname === '/login' ||
-        pathname === '/register' ||
-        pathname === '/chat' ||
-        pathname === '/therapist' ? (
-          <></>
-        ) : (
-          <GlobalWrapper>
+        <GlobalWrapper>
+          {pathname === '/login' ||
+          pathname === '/register' ||
+          pathname === '/chat' ||
+          pathname === '/therapist' ? (
+            <></>
+          ) : (
             <NavbarCommon />
-          </GlobalWrapper>
-        )}
-        <div className="bg-[#eaeaea]">
-          <Provider store={store}>{children}</Provider>
-        </div>
+          )}
+          <div className="bg-[#eaeaea]">
+            <Provider store={store}>{children}</Provider>
+          </div>
+        </GlobalWrapper>
       </body>
     </html>
   );

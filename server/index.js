@@ -8,6 +8,7 @@ import userRoutes from './routes/user.js';
 import emotionRoutes from './routes/emotionRoutes.js';
 import chatRoutes from './routes/chat.js';
 import messageRoutes from './routes/message.js';
+import reportRoutes from './routes/reportRoutes.js';
 import journalRoutes from './routes/journal/journalRoutes.js';
 import * as Server from 'socket.io';
 
@@ -23,6 +24,7 @@ app.use(cors(corsConfig));
 app.use('/', userRoutes);
 app.use('/api/journal', journalRoutes);
 app.use('/api/chat', chatRoutes);
+app.use('/api/report', reportRoutes);
 app.use('/api/message', messageRoutes);
 app.use('/api/emotion', emotionRoutes);
 mongoose.set('strictQuery', false);
