@@ -15,7 +15,7 @@ const em_map = {
 emotionControllers.getPastData = async (req, res) => {
   const result = await Journal.find({
     createdAt: { $gte: moment().add(-10, 'days') },
-  }).sort('-createdAt');
+  });
   const x = result.map((el, i) => moment(el.createdAt).format('ddd'));
   res.send({ x, y: result.map((el) => em_map[el.sentiment]) });
 };
