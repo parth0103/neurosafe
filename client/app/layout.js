@@ -1,23 +1,23 @@
-"use client"
-import { Inter } from 'next/font/google';
-import NavbarCommon from './components/global/NavbarCommon';
+"use client";
+import { Inter } from "next/font/google";
+import NavbarCommon from "./components/global/NavbarCommon";
 import { usePathname } from "next/navigation";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'react-toastify/dist/ReactToastify.min.css';
-import './globals.css';
-import { Provider } from 'react-redux';
-import store from '@/store';
-const inter = Inter({ subsets: ['latin'] });
+import "bootstrap/dist/css/bootstrap.min.css";
+import "react-toastify/dist/ReactToastify.min.css";
+import "./globals.css";
+import { Provider } from "react-redux";
+import store from "@/store";
+const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children }) {
-  const pathname  = usePathname();
-  return (
+	const pathname = usePathname();
+	return (
 		<html lang="en">
 			<body className={inter.className}>
 				{pathname === "/login" ||
 				pathname === "/register" ||
 				pathname === "/chat" ||
-				pathname === "/therapist"? (
+				pathname.split("/")[1] == "therapist" ? (
 					<></>
 				) : (
 					<NavbarCommon />
@@ -27,5 +27,5 @@ export default function RootLayout({ children }) {
 				</div>
 			</body>
 		</html>
-  );
+	);
 }

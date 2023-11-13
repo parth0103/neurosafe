@@ -52,7 +52,12 @@ function Login() {
 				localStorage.setItem("userToken", data.token);
 				toast.success("Succesfully Login!");
 				setIsLoading(false);
-				pageRoute.push("/chat");
+				if(userType==='User'){
+					pageRoute.push('/chat')
+				}
+				else if(userType==='Therapist'){
+					pageRoute.push('/therapist')
+				}
 			} else {
 				setIsLoading(false);
 				toast.error("Invalid Credentials!");
