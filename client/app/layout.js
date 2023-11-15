@@ -18,15 +18,15 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <ToastContainer />
+        {/* {pathname === '/login' ||
+        pathname === '/register' ||
+        pathname === '/chat' ||
+        pathname === '/therapist' ? (
+          <></>
+        ) : (
+          <NavbarCommon />
+        )} */}
         <GlobalWrapper>
-          {pathname === '/login' ||
-          pathname === '/register' ||
-          pathname === '/chat' ||
-          pathname === '/therapist' ? (
-            <></>
-          ) : (
-            <NavbarCommon />
-          )}
           <div className="bg-[#eaeaea]">
             <Provider store={store}>{children}</Provider>
           </div>

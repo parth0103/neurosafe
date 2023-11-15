@@ -55,7 +55,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -169,7 +170,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -220,7 +222,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -319,7 +322,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -370,7 +374,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -445,7 +450,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -469,7 +475,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.8.19+commit.7dd6d404\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"bytes12\",\"name\":\"_uid\",\"type\":\"bytes12\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"_type\",\"type\":\"string\"}],\"name\":\"signup\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"bytes12\",\"name\":\"_uid\",\"type\":\"bytes12\"},{\"internalType\":\"bytes12\",\"name\":\"_tid\",\"type\":\"bytes12\"},{\"internalType\":\"bytes32\",\"name\":\"cid\",\"type\":\"bytes32\"}],\"name\":\"addReport\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes12\",\"name\":\"id\",\"type\":\"bytes12\"}],\"name\":\"addTherapist\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes12\",\"name\":\"_uid\",\"type\":\"bytes12\"},{\"internalType\":\"bytes12\",\"name\":\"_tid\",\"type\":\"bytes12\"}],\"name\":\"checkAccess\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getPatientTherapists\",\"outputs\":[{\"internalType\":\"bytes12[]\",\"name\":\"\",\"type\":\"bytes12[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes12\",\"name\":\"_uid\",\"type\":\"bytes12\"}],\"name\":\"getPatientsForTherapist\",\"outputs\":[{\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"gender\",\"type\":\"string\"},{\"internalType\":\"bytes12\",\"name\":\"uid\",\"type\":\"bytes12\"},{\"internalType\":\"bytes32[]\",\"name\":\"files\",\"type\":\"bytes32[]\"},{\"internalType\":\"bytes12[]\",\"name\":\"doctor_list\",\"type\":\"bytes12[]\"},{\"internalType\":\"bool\",\"name\":\"set\",\"type\":\"bool\"}],\"internalType\":\"struct HealthRecord.user[]\",\"name\":\"\",\"type\":\"tuple[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes12\",\"name\":\"_u_uid\",\"type\":\"bytes12\"},{\"internalType\":\"bytes12\",\"name\":\"_t_uid\",\"type\":\"bytes12\"}],\"name\":\"getReportsByUser\",\"outputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"},{\"internalType\":\"bytes12\",\"name\":\"uid\",\"type\":\"bytes12\"},{\"internalType\":\"bytes12\",\"name\":\"generatedBy\",\"type\":\"bytes12\"},{\"internalType\":\"bytes32\",\"name\":\"cid\",\"type\":\"bytes32\"}],\"internalType\":\"struct HealthRecord.report[]\",\"name\":\"\",\"type\":\"tuple[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes12\",\"name\":\"_uid\",\"type\":\"bytes12\"}],\"name\":\"getTherapistData\",\"outputs\":[{\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"contact\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"specialization\",\"type\":\"string\"},{\"internalType\":\"bytes12\",\"name\":\"uid\",\"type\":\"bytes12\"},{\"internalType\":\"bytes12[]\",\"name\":\"user_list\",\"type\":\"bytes12[]\"},{\"internalType\":\"bool\",\"name\":\"set\",\"type\":\"bool\"}],\"internalType\":\"struct HealthRecord.therapist\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes12\",\"name\":\"_uid\",\"type\":\"bytes12\"}],\"name\":\"getTherapistsForPatient\",\"outputs\":[{\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"contact\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"specialization\",\"type\":\"string\"},{\"internalType\":\"bytes12\",\"name\":\"uid\",\"type\":\"bytes12\"},{\"internalType\":\"bytes12[]\",\"name\":\"user_list\",\"type\":\"bytes12[]\"},{\"internalType\":\"bool\",\"name\":\"set\",\"type\":\"bool\"}],\"internalType\":\"struct HealthRecord.therapist[]\",\"name\":\"\",\"type\":\"tuple[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes12\",\"name\":\"_uid\",\"type\":\"bytes12\"}],\"name\":\"getUserData\",\"outputs\":[{\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"gender\",\"type\":\"string\"},{\"internalType\":\"bytes12\",\"name\":\"uid\",\"type\":\"bytes12\"},{\"internalType\":\"bytes32[]\",\"name\":\"files\",\"type\":\"bytes32[]\"},{\"internalType\":\"bytes12[]\",\"name\":\"doctor_list\",\"type\":\"bytes12[]\"},{\"internalType\":\"bool\",\"name\":\"set\",\"type\":\"bool\"}],\"internalType\":\"struct HealthRecord.user\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes12\",\"name\":\"_user_uid\",\"type\":\"bytes12\"},{\"internalType\":\"bytes12\",\"name\":\"_t_uid\",\"type\":\"bytes12\"}],\"name\":\"grantRecordAccess\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes12\",\"name\":\"_user_uid\",\"type\":\"bytes12\"},{\"internalType\":\"bytes12\",\"name\":\"_t_uid\",\"type\":\"bytes12\"}],\"name\":\"revokeRecordAccess\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_contact\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_specialization\",\"type\":\"string\"},{\"internalType\":\"bytes12\",\"name\":\"_uid\",\"type\":\"bytes12\"}],\"name\":\"signupTherapist\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_gender\",\"type\":\"string\"},{\"internalType\":\"bytes12\",\"name\":\"_uid\",\"type\":\"bytes12\"}],\"name\":\"signupUser\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/HealthRecords.sol\":\"HealthRecord\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/HealthRecords.sol\":{\"keccak256\":\"0x0388ad5c6a6200212433658ea4f71719fbdf4a51e8720b9c41e8c63382070c9b\",\"urls\":[\"bzz-raw://56dfa6bd05421f533347f445d0830c2443fcc08cc9fab7d0b3bb6a54ae23ab21\",\"dweb:/ipfs/QmWiaCcdya78ho2XdTpp91LmWRv9f9QgRFLXi1b7X7kk7P\"]}},\"version\":1}",
@@ -28238,12 +28245,13 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0xf0759fAA91222477f90a9d529D7C73b2de4ae2A2",
-      "transactionHash": "0xc8272e1a413010da620726c7ec5fda839530f01f627a76d3562855912ee9b0f6"
+      "address": "0xeD70dE3C54Fe1D044CE0165447084d702c38A029",
+      "transactionHash": "0x90a65ce07e13b39c167c760d2201e8f44086a2191983fb046808f4fbb66794c1"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2023-11-14T18:12:05.067Z",
+  "updatedAt": "2023-11-15T18:07:44.462Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {},
