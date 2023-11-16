@@ -74,7 +74,7 @@ function Group() {
 				onClick={handleOpen}
 			>
 				<div className="flex justify-start border-r-2">
-					<button className="text-[11px] font-normal tracking-wide flex items-center gap-x-1 bg-[#f6f6f6] text-[#1f2228] py-1 -mb-7 mt-2  px-2">
+					<button className="text-[11px] font-normal tracking-wide flex items-center gap-x-1 bg-[#f6f6f6] text-[#1f2228] py-1 -mb-7 mt-2  px-2 z-1">
 						New Group <BsPlusLg />
 					</button>
 				</div>
