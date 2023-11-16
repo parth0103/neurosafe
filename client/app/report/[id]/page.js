@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
-import EmotionBar from '@/app/components/ReportGraphs/EmotionBar';
-import MoodTrend from '@/app/components/ReportGraphs/MoodTrend';
+import EmotionBar from '@/app/components/reportGraphs/EmotionBar';
+import MoodTrend from '@/app/components/reportGraphs/MoodTrend';
 import Wrapper from '@/app/components/global/Wrapper';
 import html2canvas from 'html2canvas';
 import { Button } from 'react-bootstrap';
