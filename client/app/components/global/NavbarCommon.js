@@ -36,10 +36,10 @@ export default function NavbarCommon({ current, signout, user, bot }) {
 
   const pages = [
     { name: 'Dashboard', e: 'dash', link: '/dashboard' },
-    { name: 'Blogs', e: 'blogs', link: '/blogs' },
-    { name: 'Videos', e: 'vids', link: '/videos' },
-    { name: 'Appointments', e: 'apps', link: '/appointments' },
-    { name: 'Reflect', e: 'reflect', link: '/reflect' },
+    { name: 'Reports', e: 'blogs', link: '/report/1' },
+    { name: 'Chat', e: 'vids', link: '/chat' },
+    { name: 'Therapists', e: 'apps', link: '/u/therapist' },
+    { name: 'Journal', e: 'reflect', link: '/journal' },
   ];
 
   return (

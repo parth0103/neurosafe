@@ -1,8 +1,7 @@
 const emotionControllers = {};
 import Journal from '../models/journalModel.js';
 import mongoose from 'mongoose';
-// import moment from 'moment';
-const moment = {}
+import moment from 'moment';
 
 const em_map = {
   sadness: 1,

@@ -12,6 +12,7 @@ import getWeb3 from '@/app/blockchain/logic/getWeb3';
 import { Form } from 'react-bootstrap';
 import useWeb3 from '@/app/components/hooks/useWeb3';
 import { DateTimePicker } from '@mui/x-date-pickers';
+import { BsClockFill } from 'react-icons/bs';
 
 export default function page({ params }) {
   const [tid, setid] = useState('');
@@ -19,7 +20,7 @@ export default function page({ params }) {
   const [data, setdata] = useState({});
   const [access, setaccess] = useState(false);
   const [reason, setreason] = useState('');
-  const [appointments, setappointments] = useState([]);
+  const [appointments, setappointments] = useState({});
 
   const [web3, accts, load] = useWeb3();
   //   const { id } = params;
@@ -29,6 +30,16 @@ export default function page({ params }) {
       .get('http://localhost:8000/api/users/' + params.id)
       .then((e) => setdata(e.data));
     console.log(localStorage.getItem('uid'));
+
+    axios
+      .get(
+        'http://localhost:8000/api/appointment/patient/' +
+          localStorage.getItem('uid')
+      )
+      .then((e) => {
+        console.log(e.data);
+        setappointments(e?.data);
+      });
   }, []);
 
   useEffect(() => {
@@ -39,8 +50,17 @@ export default function page({ params }) {
   }, [load, access]);
 
   const bookApp = async () => {
-    console.log(moment(date).unix());
-    console.log(reason, date);
+    const dateTime = moment(date).toISOString();
+    console.log(dateTime);
+    const comment = reason;
+    axios
+      .post('http://localhost:8000/api/appointment', {
+        date: dateTime,
+        comment,
+        patient: localStorage.getItem('uid'),
+        therapist: tid,
+      })
+      .then((el) => console.log(el));
   };
 
   const checkAccess = async () => {
@@ -99,78 +119,108 @@ export default function page({ params }) {
                 <div className="text-md">
                   Joined: {moment(data.createdAt).format('Do MMMM YY')}
                 </div>
+                <div>
+                  {access == false ? (
+                    <div className="">
+                      <Button
+                        onClick={() => changeAccess(true)}
+                        variant={'outline-success'}
+                      >
+                        Grant Record Access
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="">
+                      <Button
+                        onClick={() => changeAccess(false)}
+                        variant={'outline-danger'}
+                      >
+                        Revoke Record Access
+                      </Button>
+                    </div>
+                  )}
+                </div>
               </div>
+
+              <div></div>
             </div>
             <hr className="h-[2px] bg-[#ff7a00] w-full border-0 self-center" />
-            <div>
-              <div className="mb-3 font-semibold text-xl">Bio</div>
-              <div className="px-2">{data.bio}</div>
+            <div className="flex gap-5">
+              <div className="w-1/3">
+                <div>
+                  <div className="mb-3 font-semibold text-xl">Bio</div>
+                  <div className="px-2">
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    Expedita, repellendus.
+                  </div>
+                </div>
+              </div>
+              <div className=" flex flex-col w-1/2 items-center gap-4 ">
+                <div className="font-semibold text-xl mb-5">
+                  Book an Appointment
+                </div>
+                <div className="mx-auto">
+                  <DateTimePicker
+                    disabled={
+                      appointments?.upcomingAppointments?.length ? true : false
+                    }
+                    value={data}
+                    label="Choose Date and Time"
+                    onChange={(e) => setDate(e.$d)}
+                  />
+                </div>
+                <div className="w-full mx-auto">
+                  <InputGroup>
+                    <Form.Control
+                      onChange={(e) => setreason(e.target.value)}
+                      placeholder="Reason for appointment (optional)"
+                      aria-label="With textarea"
+                      className="border-neurosafe-primary border-2"
+                    />
+                  </InputGroup>
+                </div>
+
+                <div className="mt-4">
+                  <Button
+                    variant="outline-primary"
+                    onClick={bookApp}
+                    disabled={
+                      appointments?.upcomingAppointments?.length ? true : false
+                    }
+                  >
+                    Book
+                  </Button>
+                </div>
+              </div>
             </div>
-            {access == false ? (
-              <div className="">
-                <Button
-                  onClick={() => changeAccess(true)}
-                  variant={'outline-success'}
-                >
-                  Grant Record Access
-                </Button>
-              </div>
-            ) : (
-              <div className="">
-                <Button
-                  onClick={() => changeAccess(false)}
-                  variant={'outline-danger'}
-                >
-                  Revoke Record Access
-                </Button>
-              </div>
-            )}
           </div>
           <div className="flex flex-col gap-4 items-center p-5 w-1/2">
-            <div className="font-semibold text-xl mb-5">
-              Book an Appointment
-            </div>
-            <div className="mx-auto">
-              <DateTimePicker
-                disabled={appointments.length ? true : false}
-                value={data}
-                label="Choose Date and Time"
-                onChange={(e) => setDate(e.$d)}
-              />
-            </div>
-            <div className="w-1/2 mx-auto">
-              <InputGroup>
-                <Form.Control
-                  onChange={(e) => setreason(e.target.value)}
-                  placeholder="Reason for appointment (optional)"
-                  aria-label="With textarea"
-                />
-              </InputGroup>
-            </div>
-
-            <div className="mt-4">
-              <Button
-                variant="outline-primary"
-                onClick={bookApp}
-                disabled={appointments.length ? true : false}
-              >
-                Book
-              </Button>
-            </div>
             <div className="flex-col mt-5">
               <div className="text-xl font-semibold text-center">
                 Upcoming Appointment
               </div>
               <div className="px-3 flex justify-center mt-4">
-                <div className="rounded-md bg-white px-3 py-2">
-                  {moment(new Date()).format('Do MMM YY hh:mm')}
-                </div>
+                {appointments?.upcomingAppointments?.map((el) => (
+                  <div className="rounded-md bg-white px-3 py-2 border-neurosafe-primary border-2">
+                    {moment(el.date).format('Do MMM YY, hh:mm a')}
+                  </div>
+                ))}
               </div>
-              <div className="text-xl font-semibold mt-4 text-center">
+              <div className="text-xl font-semibold mt-5 mb-5 text-center">
                 Previous Appointments
               </div>
               <div className="px-3 flex flex-wrap gap-4 mt-4">
-                <PastAppointments />
+                <div className="flex flex-col gap-y-5 overflow-y-auto max-h-[70vh] z-5">
+                  <div className="flex justify-between gap-5 items-center">
+                    <div className="w-1/3 font-semibold text-center">Date</div>
+                    <div className="font-semibold w-2/3 text-center">
+                      Comment
+                    </div>
+                  </div>
+                  {appointments?.pastAppointments?.map((el) => {
+                    return <PastAppointments time={el.date} />;
+                  })}
+                </div>
               </div>
             </div>
           </div>
@@ -180,28 +230,18 @@ export default function page({ params }) {
   );
 }
 
-const PastAppointments = () => {
-  const date = moment.unix(new Date());
+const PastAppointments = ({ time }) => {
+  const date = moment(time);
 
   return (
-    <div className="flex flex-row px-5 py-5 bg-white rounded-md justify-between items-center">
-      <div className="space-y-[6px]">
-        <div className="font-semibold text-neurosafe-primary text-lg">
-          {'nice'}
-        </div>
-        <div className="flex flex-row space-x-10">
-          <div className="">Date: {date.format('L')}</div>
-          <div className="">Time: {date.format('LT')}</div>
+    <>
+      <div className="flex justify-between gap-5 items-center">
+        <div className="w-1/3"> {date.format('Do MMM YY, hh:mm a')}</div>
+        <div className="w-2/3">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt,
+          voluptatibus.
         </div>
       </div>
-      <div className="">
-        <button
-          className="bg-neurosafe-primary px-2 py-2 text-sm rounded-md text-white border-2 border-neurosafe-primary hover:bg-white hover:text-neurosafe-primary duration-150 transition-all"
-          onClick={() => {}}
-        >
-          View Details
-        </button>
-      </div>
-    </div>
+    </>
   );
 };

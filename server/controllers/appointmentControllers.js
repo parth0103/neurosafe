@@ -1,4 +1,4 @@
-import Appointment from "../models/appointmentModel.js";
+import Appointment from '../models/appointmentModel.js';
 // import User from "../models/userModel";
 
 export const createAppointment = async (req, res) => {
@@ -17,7 +17,6 @@ export const createAppointment = async (req, res) => {
   }
 };
 
-
 export const getPatientAppointments = async (req, res) => {
   const { userId } = req.params;
   console.log(userId);
@@ -27,19 +26,22 @@ export const getPatientAppointments = async (req, res) => {
     const pastAppointments = await Appointment.find({
       patient: userId,
       date: { $lt: currentDate },
-    }).sort({date:-1}).populate("patient", "name profilePic email");
+    })
+      .sort({ date: -1 })
+      .populate(['therapist', 'patient']);
     console.log(pastAppointments);
     const upcomingAppointments = await Appointment.find({
       patient: userId,
       date: { $gt: currentDate },
-    }).sort({date:1}).populate("patient", "name profilePic email");
+    })
+      .sort({ date: 1 })
+      .populate(['therapist', 'patient']);
 
     res.status(200).json({ pastAppointments, upcomingAppointments });
   } catch (error) {
     res.status(500).json({ error: error });
   }
 };
-
 
 export const getTherapistAppointments = async (req, res) => {
   const { userId } = req.params;
@@ -50,12 +52,12 @@ export const getTherapistAppointments = async (req, res) => {
     const pastAppointments = await Appointment.find({
       therapist: userId,
       date: { $lt: currentDate },
-    }).populate("therapist", "name profilePic email");
+    }).populate(['therapist', 'patient']);
     console.log(pastAppointments);
     const upcomingAppointments = await Appointment.find({
       therapist: userId,
       date: { $gt: currentDate },
-    }).populate("therapist", "name profilePic email");
+    }).populate(['therapist', 'patient']);
 
     res.status(200).json({ pastAppointments, upcomingAppointments });
   } catch (error) {
