@@ -2,6 +2,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 import './globals.css';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { usePathname } from 'next/navigation';
 
 import { createContext, useState, useContext } from 'react';
@@ -19,16 +21,18 @@ export const GlobalWrapper = ({ children }) => {
   //   searchUsers.then((e) => console.log('user', e));
   // }, []);
   return (
-    <GlobalContext.Provider value={{ bot, setBot }}>
-      {pathname === '/login' ||
-      pathname === '/register' ||
-      pathname === '/chat' ||
-      pathname === '/therapist' ? (
-        <></>
-      ) : (
-        <NavbarCommon bot={bot} />
-      )}
-      {children}
-    </GlobalContext.Provider>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <GlobalContext.Provider value={{ bot, setBot }}>
+        {pathname === '/login' ||
+        pathname === '/register' ||
+        pathname === '/chat' ||
+        pathname === '/therapist' ? (
+          <></>
+        ) : (
+          <NavbarCommon bot={bot} />
+        )}
+        {children}
+      </GlobalContext.Provider>
+    </LocalizationProvider>
   );
 };
