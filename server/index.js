@@ -10,6 +10,8 @@ import chatRoutes from './routes/chat.js';
 import messageRoutes from './routes/message.js';
 import reportRoutes from './routes/reportRoutes.js';
 import journalRoutes from './routes/journal/journalRoutes.js';
+import appointmentRoutes from './routes/appointmentRoutes.js';
+import therapistRoutes from './routes/therapistRoutes.js';
 import * as Server from 'socket.io';
 
 const app = express();
@@ -27,6 +29,8 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/report', reportRoutes);
 app.use('/api/message', messageRoutes);
 app.use('/api/emotion', emotionRoutes);
+app.use('/api/appointment',appointmentRoutes)
+app.use('/api/therapist',therapistRoutes);
 mongoose.set('strictQuery', false);
 mongoDBConnect();
 const server = app.listen(process.env.PORT, () => {

@@ -25,7 +25,7 @@ export const registerUser = async (body) => {
   try {
     return await axios.post(`${url}/auth/register`, {
       ...body,
-      type: 'therapist',
+      type: 'user',
     });
   } catch (error) {
     console.log('error in register api');

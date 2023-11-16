@@ -1,7 +1,8 @@
 const journalControllers = {};
 import Journal from '../../models/journalModel.js';
 import mongoose from 'mongoose';
-import moment from 'moment';
+// import moment from 'moment';
+const moment = {}
 import axios from 'axios';
 import fetch from 'node-fetch';
 
