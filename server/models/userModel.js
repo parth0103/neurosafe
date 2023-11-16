@@ -19,6 +19,10 @@ const userSchema = mongoose.Schema(
       type: String,
       default: 'Available',
     },
+    type: {
+      type: String,
+      default: 'user',
+    },
     profilePic: {
       type: String,
       default:

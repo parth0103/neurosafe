@@ -11,8 +11,8 @@ import { GlobalContext } from '@/app/GlobalWrapper';
 export default function Journal({ user, trigger, triggerCount }) {
   const [journals, setjournals] = useState([]);
   const [loading, setloading] = useState(true);
-  const { setBot } = useContext(GlobalContext);
   // setBot(false);
+  const { setBot } = useContext(GlobalContext);
   const getData = async (time = 'today') => {
     axios
       .get('http://localhost:8000/api/journal')
@@ -26,6 +26,7 @@ export default function Journal({ user, trigger, triggerCount }) {
         setloading(false);
       });
   };
+
   useEffect(() => {
     setloading(true);
     getData();

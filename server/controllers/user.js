@@ -2,13 +2,13 @@ import user from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
 import { OAuth2Client } from 'google-auth-library';
 export const register = async (req, res) => {
-  const { firstname, lastname, email, password } = req.body;
+  const { firstname, lastname, email, password, type } = req.body;
   try {
     const existingUser = await user.findOne({ email });
     if (existingUser)
       return res.status(400).json({ error: 'User already Exits' });
     const fullname = firstname + ' ' + lastname;
-    const newuser = new user({ email, password, name: fullname });
+    const newuser = new user({ email, password, name: fullname, type });
     const token = await newuser.generateAuthToken();
     await newuser.save();
     res.json({ message: 'success', token: token });
@@ -21,10 +21,10 @@ export const login = async (req, res) => {
   const { email, password } = req.body;
   try {
     const valid = await user.findOne({ email });
-    if (!valid) res.status(200).json({ message: 'User dont exist' });
+    if (!valid) return res.status(200).json({ message: 'User dont exist' });
     const validPassword = await bcrypt.compare(password, valid.password);
     if (!validPassword) {
-      res.status(200).json({ message: 'Invalid Credentials' });
+      return res.status(200).json({ message: 'Invalid Credentials' });
     } else {
       const token = await valid.generateAuthToken();
       await valid.save();
@@ -32,10 +32,12 @@ export const login = async (req, res) => {
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000,
       });
-      res.status(200).json({ token: token, status: 200 });
+      return res
+        .status(200)
+        .json({ token: token, status: 200, _id: valid._id });
     }
   } catch (error) {
-    res.status(500).json({ error: error });
+    return res.status(500).json({ error: error });
   }
 };
 export const validUser = async (req, res) => {

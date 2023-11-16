@@ -17,6 +17,6 @@ router.get('/auth/valid', Auth, validUser);
 router.get('/auth/logout', Auth, logout);
 router.post('/api/google', googleAuth);
 router.get('/api/user?', Auth, searchUsers);
-router.get('/api/users/:id', Auth, getUserById);
+router.get('/api/users/:id', getUserById);
 router.patch('/api/users/update/:id', Auth, updateInfo);
 export default router;

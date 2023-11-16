@@ -13,26 +13,28 @@ function Contacts() {
 	useEffect(() => {
 		dispatch(fetchChats());
 	}, [dispatch]);
+	console.log(chats)
 	return (
 		<>
-			<div className="flex flex-col -space-y-1 overflow-y-scroll scrollbar-hide h-[87vh] pb-10">
+			<div className="relative z-1 flex flex-col overflow-y-scroll scrollbar-hide h-[87vh] py-3 px-3 ">
 				{chats?.length > 0 ? (
 					chats?.map((e) => {
+						console.log(e)
 						return (
 							<div
 								onClick={() => {
 									dispatch(setActiveChat(e));
 								}}
 								key={e._id}
-								className={`flex items-center justify-between sm:gap-x-1 md:gap-x-1 mt-5 ${
+								className={`flex items-center justify-between sm:gap-x-1 md:gap-x-1 ${
 									activeChat._id === e._id
 										? "bg-[#fafafa]"
 										: "bg-[#fff]"
-								} cursor-pointer  py-4 px-2`}
+								} cursor-pointer px-2 py-2`}
 							>
 								<div className="flex items-center gap-x-3 sm:gap-x-1 md:gap-x-3">
 									<img
-										className="w-12 h-12  sm:w-12 sm:h-12 rounded-[30px] shadow-lg object-cover"
+										className="w-12 h-12  sm:w-12 sm:h-12 rounded-[30px]  object-cover"
 										src={getChatPhoto(e, activeUser)}
 										alt=""
 									/>
@@ -52,7 +54,7 @@ function Contacts() {
 										</p>
 									</div>
 								</div>
-								<div className="flex flex-col items-end gap-y-[8px]">
+								{/* <div className="flex flex-col items-end gap-y-[8px]">
 									<p className="text-[12.4px] sm:text-[12px]  font-normal text-[#b0b2b3] tracking-wide">
 										{timeSince(
 											new Date(
@@ -60,7 +62,7 @@ function Contacts() {
 											)
 										)}
 									</p>
-								</div>
+								</div> */}
 							</div>
 						);
 					})

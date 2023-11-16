@@ -6,7 +6,7 @@ const API = (token) =>
     headers: { Authorization: token },
   });
 let url = process.env.REACT_APP_SERVER_URL;
-console.log(url)
+console.log(url);
 export const loginUser = async (body) => {
   try {
     return await axios.post(`${url}/auth/login`, body);
@@ -23,7 +23,10 @@ export const googleAuth = async (body) => {
 };
 export const registerUser = async (body) => {
   try {
-    return await axios.post(`${url}/auth/register`, body);
+    return await axios.post(`${url}/auth/register`, {
+      ...body,
+      type: 'therapist',
+    });
   } catch (error) {
     console.log('error in register api');
   }

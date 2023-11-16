@@ -1,7 +1,13 @@
-import React from 'react';
+'use client';
+import React, { useEffect } from 'react';
 import Wrapper from '../components/global/Wrapper';
+import web3Funcs from '../blockchain/logic/web3Functions';
 import Container from '../components/global/Container';
 function PatientCard() {
+  useEffect(() => {
+    const web3 = web3Funcs.createAccount();
+    console.log(web3);
+  }, []);
   return (
     <div className="flex flex-col p-3 gap-3 bg-white shadow-sm border-1 rounded-lg w-[15%] cursor-pointer">
       <div className="flex justify-center rounded-full ">

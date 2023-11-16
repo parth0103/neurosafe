@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 import './globals.css';
+import { ToastContainer } from 'react-toastify';
 import { GlobalWrapper } from './GlobalWrapper';
 
 import { Provider } from 'react-redux';
@@ -16,13 +17,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        {pathname === '/login' ||
+        <ToastContainer />
+        {/* {pathname === '/login' ||
         pathname === '/register' ||
-        pathname === '/chat' ? (
+        pathname === '/chat' ||
+        pathname === '/therapist' ? (
           <></>
         ) : (
           <NavbarCommon />
-        )}
+        )} */}
         <GlobalWrapper>
           <div className="bg-[#eaeaea]">
             <Provider store={store}>{children}</Provider>

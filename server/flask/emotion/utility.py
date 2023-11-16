@@ -4,14 +4,17 @@ from tensorflow.keras.utils import pad_sequences
 from tensorflow.keras.models import Model
 from tensorflow.keras.models import model_from_json
 
+model = None
+tokenizer = None
+
 def loadModel():
+    global model, tokenizer
     json_file = open('./models/model2.json', 'r')
     loaded_model_json = json_file.read()
     json_file.close()
     loaded_model = model_from_json(loaded_model_json)
     loaded_model.load_weights("./models/model2.h5")
     print("Loaded model from disk")
-    tokenizer = None
     with open('./models/tokenizer.pickle', 'rb') as handle:
         tokenizer = pickle.load(handle)
     
@@ -28,11 +31,11 @@ em_map = {
 }
 
 labels = [i for i in range(6)]
+
+model, tokenizer = loadModel()
+
 def predict_stress(input):
-    # input=clean_text(input)
-    # input_tokens=word_tokenize(input)
-    # input_emb=input_embeddings(word2vec,input_tokens,generate_missing=True)
-    model, tokenizer = loadModel()
+    global model, tokenizer
     
     input_sequence = tokenizer.texts_to_sequences([input])
     input_train=pad_sequences(input_sequence,maxlen=36)

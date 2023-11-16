@@ -61,21 +61,14 @@ function Profile(props) {
 						/>
 					</div>
 					<InputEdit
+						title="Name"
 						type="name"
 						handleChange={handleChange}
 						input={formData.name}
 						handleSubmit={submit}
 					/>
-
-					<div>
-						<div className="py-5 px-4">
-							<p className="text-[10px] tracking-wide text-[#3b4a54] ">
-								This is not your username or pin. This name will
-								be visible to your contacts
-							</p>
-						</div>
-					</div>
 					<InputEdit
+						title="Bio"
 						type="bio"
 						handleChange={handleChange}
 						input={formData.bio}
