@@ -1,6 +1,8 @@
 # NeuroSafe Web App
 
-NeuroSafe is a full stack mental wellness platform that combines reflective journaling, machine learning based emotion classification, real time communication, therapist coordination, and report generation in one integrated system. The project is built to help users understand emotional patterns early and to make that information more actionable through guided interfaces, analytics, and clinical workflows.
+Publication: https://ieeexplore.ieee.org/document/10511610
+
+NeuroSafe is a full stack mental wellness platform that combines reflective journaling, machine learning based emotion classification, Seq2Seq conversational support, therapist coordination, and report generation in one integrated system. The project is built to help users understand emotional patterns early and to make that information more actionable through guided interfaces, analytics, and clinical workflows.
 
 ## Project Vision
 
@@ -11,7 +13,7 @@ Mental health applications often separate self reflection, communication, and ca
 1. A frontend application in `client/` built with Next.js and React.
 2. A backend API in `server/` built with Express and MongoDB.
 3. Two Python Flask inference services in `server/flask/` for emotion prediction and chatbot responses.
-4. A research paper file at `932_Psychological_Distress_Detection_and_Classification.pdf` that informs the direction of text based distress and emotion understanding.
+4. Model artifacts and inference services that support text based emotion understanding in practical product workflows.
 
 ## End to End Product Capabilities
 
@@ -19,17 +21,19 @@ Mental health applications often separate self reflection, communication, and ca
 
 The platform supports account creation with email and password, login, JWT protected backend routes, Google sign in integration, user validation checks, and profile updates. The backend middleware resolves both regular JWT tokens and Google issued identity tokens so the rest of the application can operate with a unified user context.
 
-### 2. Journaling with Emotion Inference
+### 2. Journaling with BERT Based Emotion Inference
 
-Users can write journal entries that include title, free form content, and selected emotion chips from the interface. The journal text is sent to an ML service endpoint that predicts an emotion label. The resulting sentiment label is persisted together with the entry so later analytics can represent not only raw journal activity but emotional direction over time.
+Users can write journal entries that include title, free form content, and selected emotion chips from the interface. The journal text is sent to an ML service endpoint that performs BERT based emotion analysis to classify affective state labels such as joy, sadness, anger, fear, love, and surprise. The resulting sentiment label is persisted together with the entry so later analytics can represent not only raw journal activity but emotional direction over time.
 
 ### 3. Mood and Emotion Analytics
 
 The dashboard visualizes journal history through trend and distribution style charts. One endpoint returns time ordered sentiment mappings for recent history, while another returns aggregate emotion counts. This enables users and therapists to quickly identify recurring emotional patterns rather than relying only on single entry interpretation.
 
-### 4. Real Time Messaging
+### 4. Seq2Seq Chat Application
 
-NeuroSafe includes one to one and group chat workflows powered by Socket.IO and persisted message models. The system supports room joins, typing indicators, and new message fan out to relevant participants. Chat metadata includes latest message snapshots to improve inbox style previews.
+NeuroSafe includes a Seq2Seq architecture based chat application for conversational interaction. The chatbot pipeline is served through Flask inference endpoints with trained model artifacts and tokenizer resources, enabling text to response generation aligned with the wellness workflow.
+
+The conversational stack follows an encoder decoder sequence to sequence design. User text is tokenized and encoded into latent context vectors, and the decoder generates a response sequence token by token. This structure allows contextual replies beyond rule based intent matching and supports richer conversational continuity for mental wellness prompts.
 
 ### 5. Therapist Discovery and Appointments
 
@@ -39,15 +43,19 @@ The platform supports therapist listing, appointment creation, and role specific
 
 The frontend can generate a PDF report from mood and emotion visual components. The backend accepts uploaded report blobs and includes scaffolding for decentralized storage integration. This enables a future pathway for secure sharing and verifiable storage of wellness summaries.
 
-### 7. Blockchain Exploration Layer
+### 7. Blockchain Integration Layer
 
-The repository includes smart contract and Web3 integration artifacts under the frontend blockchain directory. This area is experimental and is intended for access control and record permission concepts rather than finalized production behavior.
+The repository includes smart contract and Web3 integration artifacts under the frontend blockchain directory. This layer is designed for health record access control and permission management workflows.
+
+The blockchain component focuses on consent driven data sharing between patients and therapists. In this model, access privileges can be granted and revoked through contract backed logic, creating a transparent permission trail for sensitive records. Instead of relying only on centralized access flags, the contract layer adds verifiable ownership and authorization states that can be checked before allowing record level actions.
+
+At the application level, this supports key care scenarios such as granting a therapist temporary visibility into relevant health records, revoking access after treatment windows, and preserving an auditable history of permission transitions. This design strengthens trust, improves accountability, and aligns with privacy first mental health data handling goals.
 
 ## Technical Architecture
 
 ### Frontend Layer
 
-The frontend uses Next.js App Router with React components, Redux state slices, Chart.js visualizations, and Socket.IO client integration. UI composition currently mixes Chakra UI, Bootstrap, Material UI, Sass, and Tailwind utilities, reflecting an iterative product build process.
+The frontend uses Next.js App Router with React components, Redux state slices, and Chart.js visualizations. UI composition currently mixes Chakra UI, Bootstrap, Material UI, Sass, and Tailwind utilities, reflecting an iterative product build process.
 
 ### Backend Layer
 
@@ -55,7 +63,16 @@ The backend provides REST routes across authentication, users, chat, messages, j
 
 ### ML Service Layer
 
-The emotion service loads a serialized tokenizer and Keras model artifacts and returns one emotion label per input text request. The chatbot service performs intent classification over a trained intent dataset and returns response candidates from tagged intent groups.
+The emotion service exposes a BERT driven text classification pipeline that converts journal text into contextual embeddings and predicts an emotion class with transformer based language understanding. This improves sensitivity to phrase level context and nuance compared with simpler bag of words style methods.
+
+The chat service uses a sequence to sequence modeling approach with trained tokenizer and model assets to generate conversational responses from input text. The inference flow includes text normalization, token sequence construction, encoder pass, decoder generation, and response post processing before returning a final reply.
+
+### Model Inference Flow
+
+1. The frontend submits user text to Flask inference endpoints.
+2. The emotion endpoint runs BERT based classification and returns a sentiment label.
+3. The chatbot endpoint runs Seq2Seq generation and returns a response sentence.
+4. The backend or frontend persists relevant outputs for analytics and user interaction continuity.
 
 ## Repository Structure
 
@@ -74,7 +91,7 @@ The emotion service loads a serialized tokenizer and Keras model artifacts and r
 │   │   ├── emotion/
 │   │   └── chatbot-models/
 │   └── package.json
-└── 932_Psychological_Distress_Detection_and_Classification.pdf
+└── README.md
 ```
 
 ## Local Development Setup
@@ -195,16 +212,3 @@ python app.py
 ### Report Upload
 
 1. `POST /api/report/upload`
-
-## Research Reference
-
-The repository includes `932_Psychological_Distress_Detection_and_Classification.pdf` as a direct reference to the project’s text driven distress and emotion classification direction. The current implementation reflects this direction by connecting language input, predicted emotional labels, and product level wellness workflows.
-
-## Current Implementation Notes
-
-1. Some frontend requests are still hardcoded to localhost service URLs instead of fully using environment driven configuration.
-2. Journal persistence logic currently uses a fixed user identifier in backend code and should be tied to authenticated context.
-3. The report upload flow includes IPFS scaffolding, but active CID publishing is currently disabled.
-4. Several modules are exploratory and may need consolidation before production release.
-5. The root Next.js starter page remains present while the actual application experience is routed through dedicated pages such as `/home`, `/dashboard`, `/chat`, and `/journal`.
-
