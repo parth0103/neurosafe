@@ -208,16 +208,3 @@ The repository includes `932_Psychological_Distress_Detection_and_Classification
 4. Several modules are exploratory and may need consolidation before production release.
 5. The root Next.js starter page remains present while the actual application experience is routed through dedicated pages such as `/home`, `/dashboard`, `/chat`, and `/journal`.
 
-## Recommended Next Steps for Public Release
-
-1. Normalize all API and ML service URLs through environment variables.
-2. Complete authenticated user binding for journal and report records.
-3. Add centralized validation and robust error shape consistency across controllers.
-4. Introduce backend tests and frontend integration tests.
-5. Add containerized startup with Docker Compose for reproducible onboarding.
-6. Configure CI for lint, build, and automated checks.
-7. Add a repository license file that defines usage rights clearly.
-
-## License
-
-A license file is not currently present in this repository. Add a `LICENSE` file before public distribution so contribution and reuse terms are explicit.
